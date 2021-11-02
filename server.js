@@ -44,6 +44,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(require("./routes"));
+app.get('/', (req, res) => res.send("this is the response from app hosted on vm"));
 
 // set port, listen for requests
 const PORT = config.PORT || 8000;
