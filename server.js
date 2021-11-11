@@ -22,6 +22,7 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+mongoose.set("debug", true)
 // db connection
 mongoose.connect(config.mongoUrl, {
     useNewUrlParser: true,

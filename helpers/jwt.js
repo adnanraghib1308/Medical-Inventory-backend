@@ -3,7 +3,7 @@ const config = require("../config");
 
 const generateJwt = (user) => {
   return jwt.sign(user.toJSON(), config.jwtSecret, {
-    expiresIn: 86400, // 24 hours
+    expiresIn: 31556952, // 24 hours
   });
 };
 
