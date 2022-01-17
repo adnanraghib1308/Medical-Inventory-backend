@@ -1,13 +1,11 @@
 const moment = require("moment")
 
-const generateInvoiceDetail = ({ customer_name, contact_number, products }) => {
+const generateInvoiceDetail = ({ customer_name, contact_number, products, orderNumber, user }) => {
   const mappedProducts = products.map(data => {
     return {
       item: data.name,
-      description: "",
       quantity: data.quantity,
       price: data.selling_price,
-      tax: "",
     };
   })
   var totalAmount = 0;
@@ -18,30 +16,21 @@ const generateInvoiceDetail = ({ customer_name, contact_number, products }) => {
   const invoiceDetail = {
     shipping: {
       name: customer_name,
-      address: "1234 Main Street",
-      city: "Dubai",
-      state: "Dubai",
-      country: "UAE",
-      postal_code: 94111,
+      contact_number
     },
     items: mappedProducts,
     subtotal: totalAmount,
     total: totalAmount,
-    order_number: 1234222,
+    order_number: orderNumber,
     header: {
-      company_name: "Medical Inventory System",
-      company_logo: "logo.jpg",
-      company_address:
-        "Nice Invoice. 123 William Street 1th Floor New York, NY 123456",
+      company_name: user.company_name,
+      company_logo: __dirname + '/logo.jpg',
+      company_address: user.company_address,
     },
     footer: {
-      text: "Thanks for Shopping with us.",
+      text: user.footer_text,
     },
-    currency_symbol: "₹",
-    date: {
-      billing_date: moment().format("MMMM Do YYYY").toString(),
-      due_date: moment().format("MMMM Do YYYY").toString(),
-    },
+    gst_number: user.gst_number
   };
 
   return invoiceDetail;

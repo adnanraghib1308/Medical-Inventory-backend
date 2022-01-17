@@ -3,9 +3,18 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const config = require('./config');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
-
+const mode = process.env.MODE;
+var mongoURL;
+if(mode === "production"){
+  mongoURL = process.env.PROD_DB
+}
+else{
+  mongoURL = process.env.DEV_DB
+}
 app.use(cors());
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -23,8 +32,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.set("debug", true)
+
+
 // db connection
-mongoose.connect(config.mongoUrl, {
+mongoose.connect(mongoURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }).then(() => {
@@ -47,7 +58,7 @@ app.use(function(req, res, next) {
 app.use(require("./routes"));
 
 // set port, listen for requests
-const PORT = config.PORT || 8000;
+const PORT =  8000 || process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

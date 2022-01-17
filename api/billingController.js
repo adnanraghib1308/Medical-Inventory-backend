@@ -11,36 +11,33 @@ const BillingHelper = require("../helpers/billing");
 const HandledError = require('../error/handledError');
 
 // dao
-const ProductDAO = require('../dao/product');
 const SalesDAO = require('../dao/sales');
-const fs = require("fs");
-const PDFDocument = require("pdfkit");
-const niceInvoice = require('nice-invoice');
-const path = require('path');
+const UserDAO = require('../dao/user');
 
-const searchProduct = asyncWrapper(async (req, res) => {
-    const {search_string: searchString} = req.body;
-    if(!searchString) throw new HandledError("Please provide searchString");
-
-    const matchedProducts = await ProductDAO.fetchSimilarProduct(searchString);
-    res.sendformat({data: matchedProducts});
-})
+const niceInvoice = require('../helpers/niceinvoice');
 
 const generateBill = asyncWrapper(async (req, res) => {
-    const { customer_name, contact_number, products } = req.body;
+    const { customer_name, customer_number: contact_number, products } = req.body;
 
-    const invoiceDetail = BillingHelper.generateInvoiceDetail({ customer_name, contact_number, products });
+    const lastOrderNumber = await SalesDAO.getLastOrderNumber();
+    const orderNumber = parseInt(lastOrderNumber) + 1;
+    console.log(">>>>>>>dfdsf");
+    const user = await UserDAO.findOneUser({_id: req.user._id});
+    console.log(">>>>>>> user", user)
+    const invoiceDetail = BillingHelper.generateInvoiceDetail({ customer_name, contact_number, products, orderNumber, user });
     const filePath = `./files/${nanoid(8)}.pdf`;
     niceInvoice(invoiceDetail, filePath);
+    const salesAmount = products.reduce((prev, curr) => prev+(curr.selling_price*curr.quantity), 0);
     await SalesDAO.createSalesDocument({
+        order_number: orderNumber,
         customer_name,
         contact_number,
         sales_date: moment().format('MMMM Do YYYY, h:mm:ss a').toString(),
         bill_path: filePath,
-        products
+        products,
+        amount: salesAmount
     })
     res.sendformat({file_path: filePath});
-
 })
 
 const download = asyncWrapper(async (req, res) => {
@@ -48,8 +45,7 @@ const download = asyncWrapper(async (req, res) => {
     res.download(filePath);
 })
 
-router.post("/product-search", searchProduct);
-router.post("/generate-bill", generateBill);
+router.post("/generate-bill", isAuthenticated, generateBill);
 router.get('/download', download);
 
 module.exports = router;
