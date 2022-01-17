@@ -56,6 +56,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(require("./routes"));
+app.get('/', (req, res) => res.send("working"));
 
 // set port, listen for requests
 const PORT =  8000 || process.env.PORT;
