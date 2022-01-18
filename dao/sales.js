@@ -36,7 +36,7 @@ const getSalesAmountOfLastDay = async () => {
 const getLastOrderNumber = async () => {
   const sale = await Sales.findOne({}).sort({createdAt: -1});
   console.log("<<< sale", sale);
-  return sale.order_number ? sale.order_number : 100001;
+  return sale ? sale.order_number : 100000;
 }
 
 module.exports = { createSalesDocument, getAllSalesDocumentsUsingFilter, getSalesAmountOfLastMonth, getSalesAmountOfLastWeek, getSalesAmountOfLastDay, getLastOrderNumber };
