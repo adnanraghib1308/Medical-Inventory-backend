@@ -83,7 +83,7 @@ let invoiceTable = (doc, invoice) => {
       item.item,
       item.price,
       item.quantity,
-      parseInt(item.price) * parseInt(item.quantity)
+      parseFloat(item.price) * parseFloat(item.quantity)
     );
 
     generateHr(doc, position + 20);
