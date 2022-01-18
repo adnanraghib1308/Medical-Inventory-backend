@@ -27,7 +27,7 @@ const generateBill = asyncWrapper(async (req, res) => {
     const invoiceDetail = BillingHelper.generateInvoiceDetail({ customer_name, contact_number, products, orderNumber, user });
     const filePath = `./files/${nanoid(8)}.pdf`;
     niceInvoice(invoiceDetail, filePath);
-    const salesAmount = products.reduce((prev, curr) => prev+(curr.selling_price*curr.quantity), 0);
+    const salesAmount = products.reduce((prev, curr) => prev+(parseInt(curr.selling_price)*parseInt(curr.quantity)), 0);
     await SalesDAO.createSalesDocument({
         order_number: orderNumber,
         customer_name,
