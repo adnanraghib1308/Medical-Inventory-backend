@@ -1,0 +1,28 @@
+{
+    "name": "inventory_backend",
+    "database": {
+      "client": "mongodb",
+      "connection": {
+        "host": "127.0.0.1",
+        "port": "27017",
+        "user": "",
+        "password": "",
+        "name": "inventory_backend"
+      }
+    },
+    "server": {
+      "port": 8000
+    },
+    "jwt": {
+      "key": "12#$5$^Z^",
+      "expiry": 86400
+    },
+    "web_jwt": {
+      "key": "7&P29#K!RX",
+      "expiry": 31536000
+    },
+    "unicomm_jwt": {
+      "key": "dsaeewD2w",
+      "expiry": 86400 
+    }
+  }
