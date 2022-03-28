@@ -19,6 +19,8 @@ const niceInvoice = require('../helpers/niceinvoice');
 const generateBill = asyncWrapper(async (req, res) => {
     const { customer_name, customer_number: contact_number, products } = req.body;
 
+    const user_id = req.user._id;
+
     const lastOrderNumber = await SalesDAO.getLastOrderNumber();
     const orderNumber = parseInt(lastOrderNumber) + 1;
     console.log(">>>>>>>dfdsf");
@@ -29,6 +31,7 @@ const generateBill = asyncWrapper(async (req, res) => {
     niceInvoice(invoiceDetail, filePath);
     const salesAmount = products.reduce((prev, curr) => prev+(parseFloat(curr.selling_price)*parseFloat(curr.quantity)), 0);
     await SalesDAO.createSalesDocument({
+        user_id,
         order_number: orderNumber,
         customer_name,
         contact_number,

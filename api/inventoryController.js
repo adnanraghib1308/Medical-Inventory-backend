@@ -11,6 +11,8 @@ const ProductDAO = require('../dao/product');
 const HandledError = require("../error/handledError");
 
 const addProduct = asyncWrapper(async (req, res) => {
+
+  const user_id = req.user._id;
   const {
     id,
     name,
@@ -43,6 +45,7 @@ const addProduct = asyncWrapper(async (req, res) => {
     return res.sendformat({ message: "success" });
   }
   await ProductDAO.addNewProduct({
+    user_id,
     name,
     stock: quantityInStock,
     low_stock_warning: lowStockWarning,
@@ -58,10 +61,11 @@ const addProduct = asyncWrapper(async (req, res) => {
 
 const getProducts = asyncWrapper(async (req, res) => {
   const filter = req.body;
+  const user_id = req.user._id;
   var newFilter = {name: {$regex: "", $options: 'i'}, party_name: {$regex: "", $options: 'i'}};
   if(filter.name) {newFilter.name.$regex = filter.name};
   if(filter.party_name) {newFilter.party_name.$regex = filter.party_name};
-
+  newFilter.user_id = user_id;
   const products = await ProductDAO.getAllProducts(newFilter);
   res.sendformat({data: products});
 })

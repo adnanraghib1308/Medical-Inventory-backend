@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const SalesSchema = new mongoose.Schema({
+  user_id: String,
   order_number: String,
   customer_name: String,
   contact_number: String,

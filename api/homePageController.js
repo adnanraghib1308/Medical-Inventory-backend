@@ -14,9 +14,11 @@ const moment = require("moment");
 
 
 const getSalesAmount = asyncWrapper(async (req, res) => {
-  const lastMonthSales = await SalesDAO.getSalesAmountOfLastMonth();
-  const lastWeekSales = await  SalesDAO.getSalesAmountOfLastWeek();
-  const lastDaySales = await SalesDAO.getSalesAmountOfLastDay();
+
+  const user_id = req.user._id;
+  const lastMonthSales = await SalesDAO.getSalesAmountOfLastMonth(user_id);
+  const lastWeekSales = await  SalesDAO.getSalesAmountOfLastWeek(user_id);
+  const lastDaySales = await SalesDAO.getSalesAmountOfLastDay(user_id);
 
   const lastMonthSalesAmount = lastMonthSales.reduce((prev, curr) => prev + curr.amount, 0);
   const lastWeekSalesAmount = lastWeekSales.reduce((prev, curr) => prev + curr.amount, 0);

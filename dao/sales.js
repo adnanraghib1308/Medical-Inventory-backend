@@ -9,24 +9,27 @@ const getAllSalesDocumentsUsingFilter = async(filter) => {
   return await Sales.find(filter).sort({createdAt: -1});
 }
 
-const getSalesAmountOfLastMonth = async () => {
+const getSalesAmountOfLastMonth = async (user_id) => {
   return await Sales.find({
+    user_id,
     createdAt: {
       $gte: moment().subtract(1, 'month')
     }
   }).sort({createdAt: -1});
 };
 
-const getSalesAmountOfLastWeek = async () => {
+const getSalesAmountOfLastWeek = async (user_id) => {
   return await Sales.find({
+    user_id,
     createdAt: {
       $gte: moment().subtract(1, 'week')
     }
   });
 };
 
-const getSalesAmountOfLastDay = async () => {
+const getSalesAmountOfLastDay = async (user_id) => {
   return await Sales.find({
+    user_id,
     createdAt: {
       $gte: moment().subtract(1, 'day')
     }
