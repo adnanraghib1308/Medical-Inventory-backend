@@ -2,7 +2,7 @@ const LOGIN_SUCCESS = 'login';
 const LOGOUT = 'logout';
 
 const BASE_API_URL = "http://128.199.19.170/api/api/";
-const LOCAL_BASE_URL = "http://localhost:8000/api/";
+const LOCAL_BASE_URL = "/api/";
 const isProduction = false;
 
 const AddManuallyCard = {
