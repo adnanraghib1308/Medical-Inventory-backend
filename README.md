@@ -1,5 +1,5 @@
 # Medical Shop (Inventory, Sales and Billing management system)
-> Live demo http://128.199.19.170/. Email - demo@demo.com Password - 123456
+> Live demo http://34.131.151.133:8000/. Email - demo@demo.com Password - 123456
 
 ## Table of Contents
 * [General Info](#general-information)
