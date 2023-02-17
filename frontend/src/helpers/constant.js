@@ -1,9 +1,9 @@
 const LOGIN_SUCCESS = 'login';
 const LOGOUT = 'logout';
 
-const BASE_API_URL = "http://128.199.19.170/api/api/";
+const BASE_API_URL = "http://34.131.151.133:8000/api/";
 const LOCAL_BASE_URL = "/api/";
-const isProduction = false;
+const isProduction = true;
 
 const AddManuallyCard = {
   type: "add",
